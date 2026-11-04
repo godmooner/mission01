@@ -19,8 +19,8 @@
 - [x] 포트 매핑 및 웹 서버 접속 확인
 - [x] 바인드 마운트 변경 전·후 확인
 - [x] Docker 볼륨 데이터 영속성 확인
-- [ ] Git 설정 및 GitHub·VS Code 연동
-- [ ] 트러블슈팅 2건 이상 기록
+- [x] Git 설정 및 GitHub·VS Code 연동
+- [x] 트러블슈팅 2건 이상 기록
 - [ ] 실습 증거 링크·재현 절차·민감정보 점검
 
 ## 3. 수행 로그
@@ -206,12 +206,9 @@ drwxr-xr-x  6 msk  staff  192 11월  1 21:17 practice
 
 - [Docker 실습 기록 및 검증 결과](docker.md)
 
-## 5. 트러블슈팅
+## 5. Git 설정 및 GitHub·VS Code 연동
 
-- 문제 해결 기록 1: 진행 예정
-- 문제 해결 기록 2: 진행 예정
-
-### 6.1 Git 저장소 초기화 및 현재 설정 확인
+### 5.1 Git 저장소 초기화 및 현재 설정 확인
 
 **증거**
 
@@ -251,17 +248,17 @@ main
 **배운 점**
 - `Git` 는 프로젝트 파일이 어떻게 바뀌었는지 선택한 시점마다 이력을 남기는 도구이다. 단, 이력은 자동으로 저장되는 것이 아니고, 저장 명령을 내려야 기록이 남는다. 이를 `Commit` 이라 한다.
 -  개발을 하다보면 기존 작업을 유지하면서 새로운 아이디어를 시험해보고 싶을 수 있는데, 이 때 새로운 가지 `Branch` 를 만들어 별도로 진행 할 수 있다.
-	- `git init`(Initialize: 저장소 초기화): 현재 폴더에 Git 관리용 숨김 디렉터리인 `.git`을 만든다.
-	- `-b main`(Branch: 초기 브랜치 지정): 첫 브랜치 이름을 main으로 정한다.
-	- `git status`(상태 확인): 현재 브랜치와 파일의 관리·변경 상태를 확인한다.
-	- `git config`(설정 관리): Git의 설정을 지정하거나 확인한다.
-	- `--get`(설정값 조회): 지정한 Git 설정을 확인한다.
-	- `user.name`(작성자 이름): 커밋에 표시할 이름이다. 
-	- `user.email`(작성자 이메일): 커밋에 남길 이메일이다. GitHub에 등록·인증된 이메일을 사용하면 커밋을 계정과 연결할 수 있다.
-	- `--get init.defaultBranch`(기본 브랜치 설정 조회): 새 저장소의 기본 브랜치가 main으로 설정되어 있음을 확인한다.
-	- `No commits yet`(아직 커밋 없음): 변경 내용을 하나의 이력으로 저장하는 커밋을 아직 만들지 않았다.
+- `git init`(Initialize: 저장소 초기화): 현재 폴더에 Git 관리용 숨김 디렉터리인 `.git`을 만든다.
+- `-b main`(Branch: 초기 브랜치 지정): 첫 브랜치 이름을 main으로 정한다.
+- `git status`(상태 확인): 현재 브랜치와 파일의 관리·변경 상태를 확인한다.
+- `git config`(설정 관리): Git의 설정을 지정하거나 확인한다.
+- `--get`(설정값 조회): 지정한 Git 설정을 확인한다.
+- `user.name`(작성자 이름): 커밋에 표시할 이름이다. 
+- `user.email`(작성자 이메일): 커밋에 남길 이메일이다. GitHub에 등록·인증된 이메일을 사용하면 커밋을 계정과 연결할 수 있다.
+- `--get init.defaultBranch`(기본 브랜치 설정 조회): 새 저장소의 기본 브랜치가 main으로 설정되어 있음을 확인한다.
+- `No commits yet`(아직 커밋 없음): 변경 내용을 하나의 이력으로 저장하는 커밋을 아직 만들지 않았다.
 
-### 6.2 Git 작성자 정보 설정
+### 5.2 Git 작성자 정보 설정
 
 **증거**
 ```console
@@ -286,3 +283,148 @@ main
 - `--list`(설정 목록 출력): 저장된 설정을 조회한다. 
 - 작성자 정보 설정은 커밋에 남길 신원을 지정하는 작업이며, GitHub 로그인은 별도로 수행한다.
 
+### 5.3 불필요한 파일 제외와 첫 커밋 만들기
+
+**증거**
+
+```console
+% printf '\n.DS_Store\n' >> .gitignore
+
+% cat .gitignore
+
+.DS_Store
+
+% git add .gitignore README.md docker.md Dockerfile site/ evidence/ practice/
+
+% git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   .gitignore
+	new file:   Dockerfile
+	new file:   README.md
+	new file:   docker.md
+	new file:   evidence/Docker6-4-web-8080.png
+	new file:   evidence/Docker7-1-bind-8081.png
+	new file:   practice/empty.txt
+	new file:   practice/message.txt
+	new file:   site/index.html
+
+% git commit -m "터미널 및 Docker 실습 기록"
+[main (root-commit) c6c2180] 터미널 및 Docker 실습 기록
+ 9 files changed, 855 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 Dockerfile
+ create mode 100644 README.md
+ create mode 100644 docker.md
+ create mode 100644 evidence/Docker6-4-web-8080.png
+ create mode 100644 evidence/Docker7-1-bind-8081.png
+ create mode 100644 practice/empty.txt
+ create mode 100755 practice/message.txt
+ create mode 100644 site/index.html
+
+% git log -1 --oneline
+c6c2180 (HEAD -> main) 터미널 및 Docker 실습 기록
+
+% git status
+On branch main
+nothing to commit, working tree clean
+```
+
+**배운 점**
+
+- `printf`: 줄바꿈을 나타내는 `\n`을 사용해 제외 규칙을 출력한다.
+- `>>`: 기존 내용을 유지하면서 내용을 덧붙인다.
+- `.gitignore`: 아직 추적하지 않는 파일 중 Git 기록에서 제외할 대상을 지정한다. 이번에는 macOS의 폴더 표시 정보 파일인 .DS_Store를 제외했다.
+- `git add`: 지정한 파일의 현재 내용을 스테이징 영역에 담는다. 스테이징 영역은 다음 저장 지점에 넣을 내용을 고르는 준비 공간이다.
+- `git commit`: 준비한 내용을 하나의 변경 이력으로 저장한다.
+- `-m`(Message): 커밋의 설명을 지정한다.
+- `git log`(커밋 이력 조회), `-1`(최근 한 개), `--oneline`(한 줄 표시): 가장 최근 커밋을 간단히 확인한다.
+- `c6c2180`은 이번 커밋의 짧은 식별 번호이고, `HEAD -> main`은 현재 main 브랜치의 해당 커밋을 가리킨다.
+- `working tree clean`은 현재 작업 파일과 Git이 기록한 상태 사이에 남은 변경이 없다는 뜻이다.
+- 이번 커밋은 내 컴퓨터에 저장한 이력이며, GitHub 업로드는 별도로 진행한다.
+
+### 5.4 VS Code의 GitHub 인증 및 원격 저장소 연결
+
+**증거**
+
+- GitHub 저장소: https://github.com/godmooner/mission01
+- 저장소 공개 범위: Public
+- 터미널 업로드 과정에서 비밀번호 인증 오류가 발생했다.
+- VS Code에서 Git: Push를 실행하고 GitHub 인증을 진행한 뒤 연결 상태를 확인했다.
+
+```console
+% git branch -vv
+* main c6c2180 [origin/main] 터미널 및 Docker 실습 기록
+
+% git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+
+	modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+![VS Code GitHub 로그인 및 저장소 연동](evidence/Git6-4-vscode-github.png)
+
+**배운 점**
+
+- `git remote add origin 주소`(원격 저장소 연결 추가): GitHub 저장소 주소를 origin이라는 이름으로 등록한다.
+- `git push`(커밋 업로드): 로컬에 저장한 커밋을 원격 저장소에 보낸다.
+- `-u`(Set Upstream): 로컬 브랜치와 원격 브랜치의 기본 연결을 설정한다.
+- VS Code의 `Git: Push`(커밋 업로드): 편집기에서 원격 저장소로 업로드를 실행한다.
+- `git branch -vv`(브랜치 상세 조회): 현재 커밋과 연결된 원격 브랜치를 확인한다.
+- `git status`(작업 상태 확인): 원격 브랜치와의 상태 및 커밋하지 않은 변경을 확인한다.
+- `[origin/main]`은 로컬 main이 원격 저장소 origin의 main 브랜치와 연결됐다는 뜻이다.
+- `up to date`는 로컬 커밋이 현재 확인된 원격 브랜치와 일치한다는 뜻이다.
+- GitHub 계정 비밀번호는 HTTPS 방식의 Git 업로드 인증에 사용할 수 없어, VS Code의 GitHub 인증으로 진행했다.
+- 파일을 수정하고 저장하는 것, 커밋하는 것, GitHub에 업로드하는 것은 각각 별도 작업이다. 아직 커밋하지 않은 README 수정은 이번 업로드에 포함되지 않았다.
+
+## 6. 트러블슈팅
+
+### 6.1 볼륨 실습 중 컨테이너 이름 충돌
+
+- **문제:** 새 컨테이너를 실행하려 했으나 e1-vol-2라는 이름이 이미 사용 중이라는 오류가 발생했다.
+- **원인 가설:** 앞선 실습에서 만든 컨테이너가 종료된 뒤에도 남아 있어 같은 이름을 사용할 수 없는 것으로 판단했다.
+- **확인:** 오류 메시지에서 해당 이름을 사용하는 기존 컨테이너의 ID를 확인했다.
+
+```text
+Conflict. The container name "/e1-vol-2" is already in use
+```
+
+- **해결/대안:** 컨테이너 이름을 직접 지정하지 않고 같은 볼륨을 연결해 파일을 읽는 방식으로 진행했다. 확인용 컨테이너에는 `--rm`(종료 후 자동 삭제)을 사용해 컨테이너가 남지 않도록 했다.
+- **배운 점:** 종료된 컨테이너도 삭제 전까지 이름을 유지한다. 볼륨과 컨테이너는 별도로 관리된다.
+
+### 6.2 GitHub 업로드 인증 실패
+
+- **문제:** `git push`(커밋 업로드) 실행 중 인증 오류가 발생했다.
+- **원인 가설:** GitHub 계정 비밀번호를 Git 업로드 인증에 사용할 수 없기 때문으로 판단했다.
+- **확인:** 오류 메시지에서 비밀번호 인증이 지원되지 않음을 확인했다.
+
+```text
+remote: Invalid username or token. Password authentication is not supported for Git operations.
+fatal: Authentication failed
+```
+
+- **해결:** VS Code의 `Git: Push`(커밋 업로드)에서 GitHub 인증을 진행해 업로드했다. 이후 원격 브랜치 연결과 동기화 상태를 확인했다.
+
+```console
+% git branch -vv
+* main c6c2180 [origin/main] 터미널 및 Docker 실습 기록
+
+% git status
+On branch main
+Your branch is up to date with 'origin/main'.
+[이하 커밋하지 않은 README 변경 표시 생략]
+```
+
+- **배운 점:** Git 작성자 정보 설정, GitHub 웹 로그인, Git 업로드 인증은 각각 역할이 다르다. 커밋하지 않은 파일 수정은 Push에 포함되지 않는다.
